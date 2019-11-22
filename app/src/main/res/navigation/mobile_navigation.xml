@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@id/navigation_home">
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="jp.co.ienter.bottomnavigation.views.HomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_navigation_home_to_nextFragment"
+            app:destination="@id/navigation_next" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_dashboard"
+        android:name="jp.co.ienter.bottomnavigation.views.DashboardFragment"
+        android:label="@string/title_dashboard"
+        tools:layout="@layout/fragment_dashboard" />
+
+    <fragment
+        android:id="@+id/navigation_notifications"
+        android:name="jp.co.ienter.bottomnavigation.views.NotificationsFragment"
+        android:label="@string/title_notifications"
+        tools:layout="@layout/fragment_notifications" />
+
+    <fragment
+        android:id="@+id/navigation_setting"
+        android:name="jp.co.ienter.bottomnavigation.viewmodels.setting.SettingFragment"
+        android:label="@string/title_setting"
+        tools:layout="@layout/fragment_setting" />
+
+    <fragment
+        android:id="@+id/navigation_next"
+        android:name="jp.co.ienter.bottomnavigation.views.NextFragment"
+        android:label="fragment_next"
+        tools:layout="@layout/fragment_next">
+        <action
+            android:id="@+id/nextFragment_to_finishFragment"
+            app:destination="@id/navigation_finish" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_finish"
+        android:name="jp.co.ienter.bottomnavigation.views.FinishFragment"
+        android:label="fragment_finish"
+        tools:layout="@layout/fragment_finish" >
+        <action
+            android:id="@+id/finishFragment_to_navigation_home"
+            app:destination="@id/navigation_home" />
+    </fragment>
+
+</navigation>
