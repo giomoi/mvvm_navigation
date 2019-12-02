@@ -1,45 +1,42 @@
 package jp.co.ienter.bottomnavigation.models.repository;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import androidx.lifecycle.MutableLiveData;
 import jp.co.ienter.bottomnavigation.models.Employee;
 import jp.co.ienter.bottomnavigation.models.EmployeeDBResponse;
-import jp.co.ienter.bottomnavigation.models.callapi.RetrofitClient;
 import jp.co.ienter.bottomnavigation.models.interfaces.EmployeeDataService;
+import jp.co.ienter.bottomnavigation.viewmodels.Callback;
 import retrofit2.Call;
-import retrofit2.Callback;
+
 import retrofit2.Response;
 
 public class EmployeeRepository {
     private static final String TAG = "EmployeeRepository";
-    private ArrayList<Employee> employees = new ArrayList<>();
-    private MutableLiveData<List<Employee>> mutableLiveData = new MutableLiveData<>();
 
-    public EmployeeRepository() {
+    private final EmployeeDataService mUserDataService;
+
+    public EmployeeRepository(EmployeeDataService employeeDataService) {
+        mUserDataService = employeeDataService;
     }
 
-    public MutableLiveData<List<Employee>> getMutableLiveData() {
+    public void getEmployees(final Callback<List<Employee>> callback) {
 
-        final EmployeeDataService userDataService = RetrofitClient.getService();
+        Call<EmployeeDBResponse> call = mUserDataService.getEmployees();
 
-        Call<EmployeeDBResponse> call = userDataService.getEmployees();
-        call.enqueue(new Callback<EmployeeDBResponse>() {
+        call.enqueue(new retrofit2.Callback<EmployeeDBResponse>() {
             @Override
             public void onResponse(Call<EmployeeDBResponse> call, Response<EmployeeDBResponse> response) {
                 EmployeeDBResponse employeeDBResponse = response.body();
                 if (employeeDBResponse != null && employeeDBResponse.getEmployee() != null) {
-                    employees = (ArrayList<Employee>) employeeDBResponse.getEmployee();
-                    mutableLiveData.setValue(employees);
+                    List<Employee> employees = employeeDBResponse.getEmployee();
+                    callback.onSuccess(employees);
                 }
             }
 
             @Override
             public void onFailure(Call<EmployeeDBResponse> call, Throwable t) {
+                callback.onFailure(t);
             }
         });
-
-        return mutableLiveData;
     }
 }

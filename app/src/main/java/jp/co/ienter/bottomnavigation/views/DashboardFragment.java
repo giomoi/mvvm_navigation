@@ -11,20 +11,20 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import jp.co.ienter.bottomnavigation.BaseFragment;
 import jp.co.ienter.bottomnavigation.R;
 import jp.co.ienter.bottomnavigation.adapters.EmployeeDataAdapter;
 import jp.co.ienter.bottomnavigation.models.Employee;
 import jp.co.ienter.bottomnavigation.viewmodels.dashboard.DashboardViewModel;
 
-public class DashboardFragment extends Fragment {
+public class DashboardFragment extends BaseFragment {
     private EmployeeDataAdapter employeeDataAdapter;
     private DashboardViewModel dashboardViewModel;
-    private ArrayList<Employee> employeesList;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -38,8 +38,8 @@ public class DashboardFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
 
         dashboardViewModel = ViewModelProviders.of(this).get(DashboardViewModel.class);
-        employeesList = new ArrayList<>();
-        employeeDataAdapter = new EmployeeDataAdapter(getContext(), employeesList);
+
+        employeeDataAdapter = new EmployeeDataAdapter(getContext(), new ArrayList<Employee>(0));
         recyclerView.setAdapter(employeeDataAdapter);
 
         dashboardViewModel.getText().observe(this, new Observer<String>() {
@@ -49,12 +49,27 @@ public class DashboardFragment extends Fragment {
             }
         });
 
-        dashboardViewModel.getAllEmployee().observe(this, new Observer<List<Employee>>() {
+        LiveData<List<Employee>> employeeLiveData = dashboardViewModel.getEmployees();
+        employeeLiveData.observe(this, new Observer<List<Employee>>() {
             @Override
             public void onChanged(List<Employee> employees) {
-                employeeDataAdapter.setEmployeeList((ArrayList<Employee>) employees);
+                if (getBaseActivity() != null) {
+                    employeeDataAdapter.setEmployeeList(employees);
+                }
             }
         });
+
+        LiveData<Boolean> loadingLiveData = dashboardViewModel.getLoadingData();
+        loadingLiveData.observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean isLoading) {
+                if (getBaseActivity() != null) {
+                    getBaseActivity().setLoading(isLoading);
+                }
+            }
+        });
+
+        dashboardViewModel.loadEmployees(false, true);
         return root;
     }
 }
