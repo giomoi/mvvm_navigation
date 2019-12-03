@@ -8,17 +8,14 @@ import androidx.lifecycle.ViewModel;
 import jp.co.ienter.bottomnavigation.models.Employee;
 import jp.co.ienter.bottomnavigation.models.callapi.RetrofitClient;
 import jp.co.ienter.bottomnavigation.models.repository.EmployeeRepository;
-
 import jp.co.ienter.bottomnavigation.viewmodels.Callback;
+import jp.co.ienter.bottomnavigation.views.loadings.LoadingIndicator;
 
 public class DashboardViewModel extends ViewModel {
 
     private MutableLiveData<String> mText = new MutableLiveData<>();
 
     private MutableLiveData<List<Employee>> mEmployees = new MutableLiveData<>();
-
-    private MutableLiveData<Boolean> mLoadingData = new MutableLiveData<>();
-
 
     private EmployeeRepository employeeRepository;
 
@@ -36,14 +33,10 @@ public class DashboardViewModel extends ViewModel {
         return mEmployees;
     }
 
-    public MutableLiveData<Boolean> getLoadingData() {
-        return mLoadingData;
-    }
-
     public void loadEmployees(boolean forceUpdate, final boolean showLoadingUI) {
 
         if (showLoadingUI) {
-            mLoadingData.setValue(true);
+            LoadingIndicator.getInstance().show();
         }
 
         employeeRepository.getEmployees(new Callback<List<Employee>>() {
@@ -51,7 +44,7 @@ public class DashboardViewModel extends ViewModel {
             @Override
             public void onSuccess(List<Employee> response) {
                 if (showLoadingUI) {
-                    mLoadingData.setValue(false);
+                    LoadingIndicator.getInstance().hide();
                 }
 
                 if (response != null) {
@@ -62,7 +55,7 @@ public class DashboardViewModel extends ViewModel {
             @Override
             public void onFailure(Throwable t) {
                 if (showLoadingUI) {
-                    mLoadingData.setValue(false);
+                    LoadingIndicator.getInstance().hide();
                 }
             }
         });

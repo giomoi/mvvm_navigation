@@ -9,17 +9,4 @@ import jp.co.ienter.bottomnavigation.viewmodels.MainViewModel;
 //
 public abstract class BaseActivity extends AppCompatActivity {
 
-    private MainViewModel mViewModel;
-
-    protected MainViewModel getViewModel() {
-        return mViewModel;
-    }
-
-    protected void createViewModel() {
-        mViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
-    }
-
-    public void setLoading(boolean loading) {
-        mViewModel.setLoading(loading);
-    }
 }
