@@ -2,6 +2,7 @@ package jp.co.ienter.bottomnavigation.viewmodels.dashboard;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -42,14 +43,12 @@ public class DashboardViewModel extends ViewModel {
         employeeRepository.getEmployees(new Callback<List<Employee>>() {
 
             @Override
-            public void onSuccess(List<Employee> response) {
+            public void onSuccess(@NonNull List<Employee> response) {
                 if (showLoadingUI) {
                     LoadingIndicator.getInstance().hide();
                 }
 
-                if (response != null) {
-                    mEmployees.setValue(response);
-                }
+                mEmployees.setValue(response);
             }
 
             @Override

@@ -69,7 +69,11 @@ public class LoadingIndicator {
                 }
             }
         } else
-            Log.e(TAG, "show: cannot operate", new NullPointerException("ViewModel not initialized"));
+            Log.e(TAG, "show: cannot operate", new NullPointerException("LoadingViewModel not initialized"));
+    }
+
+    public void hide() {
+        hide(false);
     }
 
     public void hide(boolean mandatory) {
@@ -87,6 +91,6 @@ public class LoadingIndicator {
                 }
             }
         } else
-            Log.e(TAG, "hide: cannot operate", new NullPointerException("ViewModel not initialized"));
+            Log.e(TAG, "hide: cannot operate", new NullPointerException("LoadingViewModel not initialized"));
     }
 }
