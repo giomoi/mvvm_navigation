@@ -10,6 +10,10 @@ public class LoadingViewModel extends ViewModel {
 
     private MutableLiveData<Boolean> mLoadingData = new MutableLiveData<>();
 
+    public LoadingViewModel() {
+        mLoadingData.setValue(false);
+    }
+
     MutableLiveData<Boolean> getLoadingData() {
         return mLoadingData;
     }

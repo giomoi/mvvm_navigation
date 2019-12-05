@@ -4,10 +4,14 @@ import android.os.Handler;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 import jp.co.ienter.bottomnavigation.Event;
+import jp.co.ienter.bottomnavigation.MyApp;
+import jp.co.ienter.bottomnavigation.PendingNavigation;
+import jp.co.ienter.bottomnavigation.R;
+import jp.co.ienter.bottomnavigation.viewmodels.BaseViewModel;
+import jp.co.ienter.bottomnavigation.views.loadings.LoadingIndicator;
 
-public class HomeViewModel extends ViewModel {
+public class HomeViewModel extends BaseViewModel {
 
     private MutableLiveData<Event> liveData = new MutableLiveData<>();
 
@@ -15,12 +19,27 @@ public class HomeViewModel extends ViewModel {
         return liveData;
     }
 
-    public void loadData() {
+    public void loadData(final boolean showLoadingUI) {
+        if (showLoadingUI) {
+            LoadingIndicator.getInstance().show();
+        }
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+                if (showLoadingUI) {
+                    LoadingIndicator.getInstance().hide();
+                }
+
+                MyApp.setPendingNavigation(new PendingNavigation(R.id.action_navigation_home_to_nextFragment));
                 liveData.setValue(new Event<>(null));
             }
         }, 3000);
     }
+
+    @Override
+    protected void onCleared() {
+        super.onCleared();
+    }
+
 }

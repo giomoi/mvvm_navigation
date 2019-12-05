@@ -64,7 +64,7 @@ public class LoadingIndicator {
             synchronized (this) {
                 counter++;
                 MutableLiveData<Boolean> liveData = mViewModel.getLoadingData();
-                if (liveData.getValue() != null && !liveData.getValue()) {
+                if (liveData.getValue() == null || !liveData.getValue()) {
                     liveData.setValue(true);
                 }
             }

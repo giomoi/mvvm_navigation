@@ -25,7 +25,6 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         BottomNavigationView navView = findViewById(R.id.nav_view);
-
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
@@ -38,6 +37,10 @@ public class MainActivity extends BaseActivity {
         mViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
 
         LoadingIndicator.getInstance().init(this);
+
+        if (!MyApp.getPendingNavigations().isEmpty()) {
+            navController.navigate(MyApp.getPendingNavigations().get(0).getNavigationId());
+        }
     }
 
     @Override

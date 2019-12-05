@@ -22,6 +22,7 @@ public class FinishFragment extends Fragment {
         root.findViewById(R.id.btnFinish).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                Navigation.findNavController(v).popBackStack(R.id.finishFragment_to_navigation_home)
                 Navigation.findNavController(v).navigate(R.id.finishFragment_to_navigation_home);
             }
         });
