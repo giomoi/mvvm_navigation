@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,7 +20,7 @@ import jp.co.ienter.bottomnavigation.R;
 import jp.co.ienter.bottomnavigation.models.Employee;
 
 public class EmployeeDataAdapter extends RecyclerView.Adapter<EmployeeDataAdapter.EmployeeViewHolder> {
-    private ArrayList<Employee> employees;
+    private List<Employee> employees;
     private Context mContext;
     private LayoutInflater mInflater;
 
@@ -29,7 +30,7 @@ public class EmployeeDataAdapter extends RecyclerView.Adapter<EmployeeDataAdapte
         this.mContext = context;
     }
 
-    public void setEmployeeList(ArrayList<Employee> employees) {
+    public void setEmployeeList(List<Employee> employees) {
         this.employees=employees;
         notifyDataSetChanged();
     }
