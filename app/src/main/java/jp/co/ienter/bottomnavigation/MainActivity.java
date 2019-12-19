@@ -15,7 +15,7 @@ import jp.co.ienter.bottomnavigation.views.loadings.LoadingIndicator;
 public class MainActivity extends BaseActivity {
 
     private MainViewModel mViewModel;
-
+    private AppBarConfiguration appBarConfiguration;
     protected MainViewModel getViewModel() {
         return mViewModel;
     }
@@ -28,7 +28,7 @@ public class MainActivity extends BaseActivity {
 
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
+        appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications,R.id.navigation_setting)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -38,6 +38,13 @@ public class MainActivity extends BaseActivity {
         mViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
 
         LoadingIndicator.getInstance().init(this);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        return NavigationUI.navigateUp(navController, appBarConfiguration)
+                || super.onSupportNavigateUp();
     }
 
     @Override
