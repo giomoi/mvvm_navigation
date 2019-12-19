@@ -1,4 +1,4 @@
-package jp.co.ienter.bottomnavigation.viewmodels.setting;
+package jp.co.ienter.bottomnavigation.views;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
