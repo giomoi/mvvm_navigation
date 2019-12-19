@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ public class DashboardFragment extends Fragment {
     private EmployeeDataAdapter employeeDataAdapter;
     private DashboardViewModel dashboardViewModel;
     private ArrayList<Employee> employeesList;
+    private ProgressBar progressBar;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -32,6 +34,7 @@ public class DashboardFragment extends Fragment {
                 ViewModelProviders.of(this).get(DashboardViewModel.class);
         View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
         final TextView textView = root.findViewById(R.id.text_dashboard);
+        progressBar= root.findViewById(R.id.progressBar);
         // bind RecyclerView
         RecyclerView recyclerView = root.findViewById(R.id.viewEmployees);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -53,8 +56,10 @@ public class DashboardFragment extends Fragment {
             @Override
             public void onChanged(List<Employee> employees) {
                 employeeDataAdapter.setEmployeeList((ArrayList<Employee>) employees);
+                progressBar.setVisibility(View.GONE);
             }
         });
+        progressBar.setVisibility(View.VISIBLE);
         return root;
     }
 }
