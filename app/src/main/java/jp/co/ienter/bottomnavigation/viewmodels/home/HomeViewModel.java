@@ -21,6 +21,6 @@ public class HomeViewModel extends ViewModel {
             public void run() {
                 liveData.setValue(new Event<>(null));
             }
-        }, 3000);
+        }, 1000);
     }
 }
